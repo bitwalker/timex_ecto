@@ -1,0 +1,10 @@
+language: elixir
+otp_release:
+  - 17.0
+  - 17.1
+elixir:
+  - 1.0.0
+env: MIX_ENV=all
+notifications:
+  email:
+    - paulschoenfelder@gmail.com
