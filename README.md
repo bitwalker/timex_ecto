@@ -13,8 +13,8 @@ To use timex_ecto with your projects, edit your `mix.exs` file and add it as a d
 
 ```elixir
 defp deps do
-  [{:timex, "~> 0.15.0"},
-   {:timex_ecto, "~> 0.1.0"}]
+  [{:timex, "~> 0.16.0"},
+   {:timex_ecto, "~> 0.2.0"}]
 end
 ```
 
