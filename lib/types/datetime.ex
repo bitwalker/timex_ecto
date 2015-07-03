@@ -39,7 +39,7 @@ defmodule Timex.Ecto.DateTime do
   Convert to native Ecto representation
   """
   def dump(%DateTime{year: y, month: m, day: d, hour: h, minute: min, second: s, ms: ms}) do
-    {:ok, {{y, m, d}, {h, min, s, ms * 1_000}}}
+    {:ok, {{y, m, d}, {h, min, s, round(ms * 1_000)}}}
   end
   def dump(_), do: :error
 end
