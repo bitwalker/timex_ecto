@@ -3,5 +3,5 @@
   "ecto": {:hex, :ecto, "0.14.2"},
   "ex_doc": {:hex, :ex_doc, "0.7.3"},
   "poolboy": {:hex, :poolboy, "1.5.1"},
-  "timex": {:hex, :timex, "0.16.0"},
+  "timex": {:hex, :timex, "0.13.5"},
   "tzdata": {:hex, :tzdata, "0.1.6"}}
