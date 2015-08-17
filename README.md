@@ -175,7 +175,11 @@ iex(3)>
 
 ## Additional Documentation
 
-Documentation for Timex and timex_ecto are available [here](https://timex.readme.io).
+Documentation for Timex and timex_ecto are available
+[here], and on [hexdocs].
+
+[here]: https://timex.readme.io
+[hexdocs]: http://hexdocs.pm/timex_ecto/
 
 ## License
 
