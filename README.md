@@ -12,6 +12,10 @@ Learn how to add `timex_ecto` to your Elixir project and start using it.
 To use timex_ecto with your projects, edit your `mix.exs` file and add it as a dependency:
 
 ```elixir
+def application do
+ [ applications: [:timex, ...], ...]
+end
+
 defp deps do
   [{:timex, "~> 0.16.2"},
    {:timex_ecto, "~> 0.4.0"}]
