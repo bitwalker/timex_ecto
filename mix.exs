@@ -29,8 +29,8 @@ defmodule TimexEcto.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:timex, "~> 0.16.0"},
-     {:ecto, "~> 0.14.2"},
+    [{:timex, "~> 0.19.0"},
+     {:ecto, "~> 1.0"},
      {:earmark, "~> 0.1", only: :dev},
      {:ex_doc, "~> 0.5", only: :dev}]
   end
