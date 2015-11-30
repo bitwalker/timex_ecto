@@ -36,7 +36,7 @@ defmodule Timex.Ecto.Date do
   Convert to native Ecto representation
   """
   def dump(%DateTime{} = datetime) do
-    {{year, month, day}, _} = DateConvert.to_erlang_datetime(datetime)
+    {{year, month, day}, _} = datetime |> Timezone.convert("UTC") |> DateConvert.to_erlang_datetime
     {:ok, {year, month, day}}
   end
   def dump(_), do: :error

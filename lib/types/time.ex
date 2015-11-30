@@ -41,7 +41,7 @@ defmodule Timex.Ecto.Time do
   Convert to the native Ecto representation
   """
   def dump({_mega, _sec, _micro} = timestamp) do
-    %DateTime{hour: h, minute: m, second: s, ms: ms} = timestamp |> Date.from(:timestamp, :epoch)
+    %DateTime{hour: h, minute: m, second: s, ms: ms} = Date.from(timestamp, :timestamp, :epoch)
     {:ok, {h, m, s, ms * 1_000}}
   end
   def dump(_), do: :error
