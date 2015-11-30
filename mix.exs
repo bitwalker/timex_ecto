@@ -37,7 +37,7 @@ defmodule TimexEcto.Mixfile do
 
   defp package do
     [ files: ["lib", "priv", "mix.exs", "README.md", "LICENSE.md"],
-      contributors: ["Paul Schoenfelder"],
+      maintainers: ["Paul Schoenfelder"],
       licenses: ["MIT"],
       description: "A plugin for Ecto and Timex which allows use of Timex types with Ecto",
       links: %{ "GitHub": "https://github.com/bitwalker/timex_ecto", "Docs": "https://timex.readme.io" } ]
