@@ -15,8 +15,7 @@ defmodule TimexEcto.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :ecto],
-     included_applications: [:timex]]
+    [applications: [:logger, :ecto, :timex]]
   end
 
   # Dependencies can be Hex packages:
