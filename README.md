@@ -17,8 +17,8 @@ def application do
 end
 
 defp deps do
-  [{:timex, "~> 0.19.0"},
-   {:timex_ecto, "~> 0.5.0"}]
+  [{:timex, "~> x.x.x"},
+   {:timex_ecto, "~> x.x.x"}]
 end
 ```
 
