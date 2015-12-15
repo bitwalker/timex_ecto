@@ -15,7 +15,7 @@ defmodule Timex.Ecto.Time do
   defdelegate blank?(value), to: Ecto.Type
 
   @doc """
-  Handle casting to Timex.Ecto.DateTimeWithTimezone
+  Handle casting to Timex.Ecto.Time
   """
   def cast(input) when is_binary(input) do
     case DateFormat.parse(input, "{ISOtime}") do
