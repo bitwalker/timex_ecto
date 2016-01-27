@@ -3,8 +3,8 @@ defmodule TimexEcto.Mixfile do
 
   def project do
     [app: :timex_ecto,
-     version: "0.7.0",
-     elixir: "~> 1.0",
+     version: "0.8.0",
+     elixir: "~> 1.0.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps,
@@ -29,9 +29,9 @@ defmodule TimexEcto.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [{:timex, ">= 0.19.0"},
-     {:ecto, "~> 1.1"},
+     {:ecto, "~> 1.1.0"},
      {:earmark, ">= 0.0.0", only: :dev},
-     {:ex_doc, "~> 0.10", only: :dev}]
+     {:ex_doc, "~> 0.10.0", only: :dev}]
   end
 
   defp package do
@@ -39,6 +39,6 @@ defmodule TimexEcto.Mixfile do
       maintainers: ["Paul Schoenfelder"],
       licenses: ["MIT"],
       description: "A plugin for Ecto and Timex which allows use of Timex types with Ecto",
-      links: %{ "GitHub": "https://github.com/bitwalker/timex_ecto", "Docs": "https://timex.readme.io" } ]
+      links: %{ "GitHub": "https://github.com/softwareforgood/timex_ecto", "Docs": "https://timex.readme.io" } ]
   end
 end
