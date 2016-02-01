@@ -38,7 +38,17 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
   """
   def cast(%DateTime{timezone: nil} = datetime), do: {:ok, %{datetime | :timezone => %TimezoneInfo{}}}
   def cast(%DateTime{} = datetime), do: {:ok, datetime}
-  def cast(_), do: :error
+  def cast(input) do
+    case Ecto.DateTimeWithTimezone.cast(input) do
+      {:ok, datetime} ->
+        load({{{datetime.year, datetime.month, datetime.day},
+               {datetime.hour, datetime.min, datetime.sec, datetime.usec}
+              },
+              datetime.timezone
+            }
+      :error -> :error
+    end
+  end
 
   @doc """
   Load from the native Ecto representation
