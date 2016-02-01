@@ -20,7 +20,7 @@ defmodule Timex.Ecto.DateTime do
   def cast(%DateTime{} = datetime),              do: {:ok, datetime}
   def cast(input) do
     case Ecto.DateTime.cast(input) do
-      {:ok, datetime} -> load({datetime.year, datetime.month, datetime.day}, {datetime.hour, datetime.min, datetime.sec, datetime.usec})
+      {:ok, datetime} -> load({{datetime.year, datetime.month, datetime.day}, {datetime.hour, datetime.min, datetime.sec, datetime.usec}})
       :error -> :error
     end
   end

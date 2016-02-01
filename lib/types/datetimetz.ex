@@ -45,7 +45,7 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
                {datetime.hour, datetime.min, datetime.sec, datetime.usec}
               },
               datetime.timezone
-            }
+            })
       :error -> :error
     end
   end
