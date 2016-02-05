@@ -26,7 +26,12 @@ defmodule Timex.Ecto.Time do
     end
   end
   def cast({_, _, _} = timestamp), do: {:ok, timestamp}
-  def cast(_), do: :error
+  def cast(input) do
+    case Ecto.Time.cast(input) do
+      {:ok, time} -> load({time.hour, time.minute, time.second, time.usecs})
+      :error -> :error
+    end
+  end
 
   @doc """
   Load from the native Ecto representation

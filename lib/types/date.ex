@@ -16,15 +16,14 @@ defmodule Timex.Ecto.Date do
   @doc """
   Handle casting to Timex.Ecto.Date
   """
-  def cast(input) when is_binary(input) do
-    case DateFormat.parse(input, "{ISOdate}") do
-      {:ok, datetime} -> {:ok, datetime}
-      {:error, _}     -> :error
-    end
-  end
   def cast(%DateTime{timezone: nil} = datetime), do: {:ok, %{datetime | :timezone => %TimezoneInfo{}}}
   def cast(%DateTime{} = datetime),              do: {:ok, datetime}
-  def cast(_), do: :error
+  def cast(input) do
+    case Ecto.Date.cast(input) do
+      {:ok, date} -> load({date.year, date.month, date.day})
+      :error -> :error
+    end
+  end
 
   @doc """
   Load from the native Ecto representation
