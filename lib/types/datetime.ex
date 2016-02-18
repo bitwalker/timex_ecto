@@ -18,6 +18,14 @@ defmodule Timex.Ecto.DateTime do
   """
   def cast(%DateTime{timezone: nil} = datetime), do: {:ok, %{datetime | :timezone => %TimezoneInfo{}}}
   def cast(%DateTime{} = datetime),              do: {:ok, datetime}
+  # Support embeds_one/embeds_many
+  def cast(%{"calendar" => _,
+             "year" => y, "month" => m, "day" => d,
+             "hour" => h, "minute" => mm, "second" => s, "ms" => ms,
+             "timezone" => %{"full_name" => tz_abbr}}) do
+    datetime = Date.from({{y,m,d},{h,mm,s}}, tz_abbr)
+    {:ok, %{datetime | :ms => ms}}
+  end
   def cast(input) do
     case Ecto.DateTime.cast(input) do
       {:ok, datetime} -> load({{datetime.year, datetime.month, datetime.day}, {datetime.hour, datetime.min, datetime.sec, datetime.usec}})

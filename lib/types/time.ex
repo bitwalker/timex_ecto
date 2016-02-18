@@ -26,6 +26,13 @@ defmodule Timex.Ecto.Time do
     end
   end
   def cast({_, _, _} = timestamp), do: {:ok, timestamp}
+  # Support embeds_one/embeds_many
+  def cast(%{"calendar" => _,
+             "year" => _, "month" => _, "day" => _,
+             "hour" => h, "minute" => mm, "second" => s, "ms" => ms,
+             "timezone" => _}) do
+    load({h, mm, s, ms * 1_000})
+  end
   def cast(input) do
     case Ecto.Time.cast(input) do
       {:ok, time} -> load({time.hour, time.minute, time.second, time.usecs})
