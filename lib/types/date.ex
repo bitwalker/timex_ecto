@@ -18,13 +18,17 @@ defmodule Timex.Ecto.Date do
   """
   def cast(%DateTime{timezone: nil} = datetime), do: {:ok, %{datetime | :timezone => %TimezoneInfo{}}}
   def cast(%DateTime{} = datetime),              do: {:ok, datetime}
+  def cast(%Date{} = date), do: {:ok, date}
   # Support embeds_one/embeds_many
   def cast(%{"calendar" => _,
              "year" => y, "month" => m, "day" => d,
-             "hour" => _, "minute" => _, "second" => _, "ms" => _,
-             "timezone" => %{"full_name" => tz_abbr}}) do
-    date = Date.from({y,m,d}, tz_abbr)
+             "timezone" => _}) do
+    date = Timex.date({y,m,d})
     {:ok, date}
+  end
+  def cast(%{"calendar" => _,
+             "year" => y, "month" => m, "day" => d}) do
+    Timex.date({y,m,d})
   end
   def cast(input) do
     case Ecto.Date.cast(input) do
@@ -36,15 +40,18 @@ defmodule Timex.Ecto.Date do
   @doc """
   Load from the native Ecto representation
   """
-  def load({_year, _month, _day} = date), do: {:ok, Date.from(date)}
+  def load({_year, _month, _day} = date), do: {:ok, Timex.date(date)}
   def load(_), do: :error
 
   @doc """
   Convert to native Ecto representation
   """
   def dump(%DateTime{} = datetime) do
-    {{year, month, day}, _} = datetime |> Timezone.convert("UTC") |> DateConvert.to_erlang_datetime
+    {{year, month, day}, _} = datetime |> Timezone.convert("UTC") |> Timex.to_erlang_datetime
     {:ok, {year, month, day}}
+  end
+  def dump(%Date{} = date) do
+    Timex.to_erlang_datetime(date)
   end
   def dump(_), do: :error
 end

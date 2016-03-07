@@ -43,8 +43,15 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
              "year" => y, "month" => m, "day" => d,
              "hour" => h, "minute" => mm, "second" => s, "ms" => ms,
              "timezone" => %{"full_name" => tz_abbr}}) do
-    datetime = Date.from({{y,m,d},{h,mm,s}}, tz_abbr)
-    {:ok, %{datetime | :ms => ms}}
+    datetime = Timex.datetime({{y,m,d},{h,mm,s}}, tz_abbr)
+    {:ok, %{datetime | :millisecond => ms}}
+  end
+  def cast(%{"calendar" => _,
+             "year" => y, "month" => m, "day" => d,
+             "hour" => h, "minute" => mm, "second" => s, "millisecond" => ms,
+             "timezone" => %{"full_name" => tz_abbr}}) do
+    datetime = Timex.datetime({{y,m,d},{h,mm,s}}, tz_abbr)
+    {:ok, %{datetime | :millisecond => ms}}
   end
   def cast(input) do
     case Ecto.DateTimeWithTimezone.cast(input) do
@@ -62,8 +69,8 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
   Load from the native Ecto representation
   """
   def load({ {{year, month, day}, {hour, min, sec, usec}}, timezone}) do
-    datetime = Date.from({{year, month, day}, {hour, min, sec}})
-    datetime = %{datetime | :ms => Time.from(usec, :usecs) |> Time.to_msecs}
+    datetime = Timex.datetime({{year, month, day}, {hour, min, sec}})
+    datetime = %{datetime | :millisecond => Time.from(usec, :microseconds) |> Time.to_microseconds}
     tz       = Timezone.get(timezone, datetime)
     {:ok, %{datetime | :timezone => tz}}
   end
@@ -73,13 +80,13 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
   Convert to the native Ecto representation
   """
   def dump(%DateTime{timezone: nil} = datetime) do
-    {date, {hour, min, second}} = DateConvert.to_erlang_datetime(datetime)
-    micros = datetime.ms * 1_000
+    {date, {hour, min, second}} = Timex.to_erlang_datetime(datetime)
+    micros = datetime.millisecond * 1_000
     {:ok, {{date, {hour, min, second, micros}}, "UTC"}}
   end
   def dump(%DateTime{timezone: %TimezoneInfo{full_name: name}} = datetime) do
-    {date, {hour, min, second}} = DateConvert.to_erlang_datetime(datetime)
-    micros = datetime.ms * 1_000
+    {date, {hour, min, second}} = Timex.to_erlang_datetime(datetime)
+    micros = datetime.millisecond * 1_000
     {:ok, {{date, {hour, min, second, micros}}, name}}
   end
   def dump(_), do: :error

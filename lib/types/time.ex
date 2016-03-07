@@ -18,10 +18,10 @@ defmodule Timex.Ecto.Time do
   Handle casting to Timex.Ecto.Time
   """
   def cast(input) when is_binary(input) do
-    case DateFormat.parse(input, "{ISOtime}") do
+    case Timex.parse(input, "{ISOtime}") do
       {:ok, datetime} ->
         datetime = %{datetime | :timezone => %TimezoneInfo{}}
-        {:ok, Date.to_secs(datetime) |> Time.add(Time.epoch)}
+        {:ok, DateTime.to_seconds(datetime) |> Time.add(Time.epoch)}
       {:error, _}     -> :error
     end
   end
@@ -30,6 +30,12 @@ defmodule Timex.Ecto.Time do
   def cast(%{"calendar" => _,
              "year" => _, "month" => _, "day" => _,
              "hour" => h, "minute" => mm, "second" => s, "ms" => ms,
+             "timezone" => _}) do
+    load({h, mm, s, ms * 1_000})
+  end
+  def cast(%{"calendar" => _,
+             "year" => _, "month" => _, "day" => _,
+             "hour" => h, "minute" => mm, "second" => s, "millisecond" => ms,
              "timezone" => _}) do
     load({h, mm, s, ms * 1_000})
   end
@@ -44,7 +50,7 @@ defmodule Timex.Ecto.Time do
   Load from the native Ecto representation
   """
   def load({hour, minute, second, usecs}) do
-    time = %{Date.epoch | :hour => hour, :minute => minute, :second => second, :ms => usecs / 1_000} |> Date.to_timestamp(:epoch)
+    time = %{DateTime.epoch | :hour => hour, :minute => minute, :second => second, :millisecond => usecs / 1_000} |> DateTime.to_timestamp(:epoch)
     {:ok, time}
   end
   def load(_), do: :error
@@ -53,7 +59,7 @@ defmodule Timex.Ecto.Time do
   Convert to the native Ecto representation
   """
   def dump({_mega, _sec, _micro} = timestamp) do
-    %DateTime{hour: h, minute: m, second: s, ms: ms} = Date.from(timestamp, :timestamp, :epoch)
+    %DateTime{hour: h, minute: m, second: s, millisecond: ms} = DateTime.from_timestamp(timestamp, :epoch)
     {:ok, {h, m, s, ms * 1_000}}
   end
   def dump(_), do: :error
