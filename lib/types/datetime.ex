@@ -41,6 +41,16 @@ defmodule Timex.Ecto.DateTime do
   end
 
   @doc """
+  Handle casting to Timex.Ecto.DateTime without returning a tuple
+  """
+  def cast!(input) do
+    case cast(input) do
+      {:ok, datetime} -> datetime
+      :error -> :error
+    end
+  end
+
+  @doc """
   Load from the native Ecto representation
   """
   def load({{year, month, day}, {hour, min, sec, usec}}) do
