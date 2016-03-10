@@ -3,7 +3,6 @@ defmodule Timex.Ecto.Time do
   Support for using Timex with :time fields
   """
   use Timex
-  alias Ecto.Time
 
   @behaviour Ecto.Type
 
@@ -19,9 +18,11 @@ defmodule Timex.Ecto.Time do
   """
   def cast(input) when is_binary(input) do
     case Timex.parse(input, "{ISOtime}") do
-      {:ok, datetime} ->
-        datetime = %{datetime | :timezone => %TimezoneInfo{}}
-        {:ok, DateTime.to_seconds(datetime) |> Time.add(Time.epoch)}
+      {:ok, %Timex.DateTime{hour: hour,
+                            minute: minute,
+                            second: second,
+                            millisecond: millisecond}} ->
+        load({hour, minute, second, millisecond * 1_000})
       {:error, _}     -> :error
     end
   end
