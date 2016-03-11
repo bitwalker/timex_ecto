@@ -51,7 +51,8 @@ defmodule Timex.Ecto.Date do
     {:ok, {year, month, day}}
   end
   def dump(%Date{} = date) do
-    {:ok, Timex.to_erlang_datetime(date)}
+    {date, {_, _, _}} = Timex.to_erlang_datetime(date)
+    {:ok, date}
   end
   def dump(_), do: :error
 end
