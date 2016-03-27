@@ -51,7 +51,8 @@ defmodule Timex.Ecto.Time do
   Load from the native Ecto representation
   """
   def load({hour, minute, second, usecs}) do
-    time = %{DateTime.epoch | :hour => hour, :minute => minute, :second => second, :millisecond => usecs / 1_000} |> DateTime.to_timestamp(:epoch)
+    millis = Time.from(usecs, :microseconds) |> Time.to_milliseconds
+    time = %{DateTime.epoch | :hour => hour, :minute => minute, :second => second, :millisecond => millis} |> DateTime.to_timestamp(:epoch)
     {:ok, time}
   end
   def load(_), do: :error

@@ -55,7 +55,7 @@ defmodule Timex.Ecto.DateTime do
   """
   def load({{year, month, day}, {hour, min, sec, usec}}) do
     datetime = Timex.datetime({{year, month, day}, {hour, min, sec}})
-    {:ok, %{datetime | :millisecond => Time.from(usec, :microseconds) |> Time.to_microseconds}}
+    {:ok, %{datetime | :millisecond => Time.from(usec, :microseconds) |> Time.to_milliseconds}}
   end
   def load(_), do: :error
 

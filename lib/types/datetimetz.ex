@@ -70,7 +70,7 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
   """
   def load({ {{year, month, day}, {hour, min, sec, usec}}, timezone}) do
     datetime = Timex.datetime({{year, month, day}, {hour, min, sec}})
-    datetime = %{datetime | :millisecond => Time.from(usec, :microseconds) |> Time.to_microseconds}
+    datetime = %{datetime | :millisecond => Time.from(usec, :microseconds) |> Time.to_milliseconds}
     tz       = Timezone.get(timezone, datetime)
     {:ok, %{datetime | :timezone => tz}}
   end
