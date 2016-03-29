@@ -15,7 +15,7 @@ To use timex_ecto with your projects, edit your `mix.exs` file and add it as a d
 
 ```elixir
 def application do
- [ applications: [:timex, ...], ...]
+ [ applications: [:timex_ecto, ...], ...]
 end
 
 defp deps do
