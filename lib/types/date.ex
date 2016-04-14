@@ -19,6 +19,17 @@ defmodule Timex.Ecto.Date do
   def cast(%DateTime{timezone: nil} = datetime), do: {:ok, %{datetime | :timezone => %TimezoneInfo{}}}
   def cast(%DateTime{} = datetime),              do: {:ok, datetime}
   def cast(%Date{} = date), do: {:ok, date}
+  # Casting from ms/s/uc timestamps
+  def cast(number) when is_number(number) do
+    int = round(number)
+    date = case Integer.digits(int) |> length do
+      16 -> Date.from_microseconds(int)
+      13 -> Date.from_milliseconds(int)
+      10 -> Date.from_seconds(int)
+    end
+
+    {:ok, date}
+  end
   # Support embeds_one/embeds_many
   def cast(%{"calendar" => _,
              "year" => y, "month" => m, "day" => d,
@@ -56,4 +67,3 @@ defmodule Timex.Ecto.Date do
   end
   def dump(_), do: :error
 end
-
