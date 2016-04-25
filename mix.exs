@@ -4,7 +4,7 @@ defmodule TimexEcto.Mixfile do
   def project do
     [app: :timex_ecto,
      version: "1.0.4",
-     elixir: "~> 1.1",
+     elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps,
