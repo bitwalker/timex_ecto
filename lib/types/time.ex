@@ -26,7 +26,9 @@ defmodule Timex.Ecto.Time do
       {:error, _}     -> :error
     end
   end
-  def cast({_, _, _} = timestamp), do: {:ok, timestamp}
+  def cast({h, m, s} = timestamp) when is_number(h) and is_number(m) and is_number(s) do
+    {:ok, timestamp}
+  end
   # Support embeds_one/embeds_many
   def cast(%{"calendar" => _,
              "year" => _, "month" => _, "day" => _,
@@ -42,7 +44,7 @@ defmodule Timex.Ecto.Time do
   end
   def cast(input) do
     case Ecto.Time.cast(input) do
-      {:ok, time} -> load({time.hour, time.minute, time.second, time.usecs})
+      {:ok, time} -> load({time.hour, time.min, time.sec, time.usec})
       :error -> :error
     end
   end
