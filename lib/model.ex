@@ -32,8 +32,14 @@ defmodule Timex.Ecto.Timestamps do
 
   @default_timestamps_opts [type: Timex.Ecto.DateTime]
   defmacro __using__(opts) do
+    autogen_args = case Keyword.fetch(opts, :usec) do
+      {:ok, true} -> [:usec]
+      _           -> [:sec]
+    end
+    autogenerate_opts = [autogenerate: {Timex.Ecto.DateTime, :autogenerate, autogen_args}]
+    escaped_opts = opts |> Dict.merge(autogenerate_opts) |> Macro.escape
     quote do
-      @timestamps_opts unquote(Dict.merge(opts, @default_timestamps_opts))
+      @timestamps_opts unquote(Dict.merge(escaped_opts, @default_timestamps_opts))
     end
   end
 end
