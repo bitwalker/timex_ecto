@@ -53,15 +53,14 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
     datetime = Timex.datetime({{y,m,d},{h,mm,s}}, tz_abbr)
     {:ok, %{datetime | :millisecond => ms}}
   end
-  def cast(input) do
-    case Ecto.DateTimeWithTimezone.cast(input) do
-      {:ok, datetime} ->
-        load({{{datetime.year, datetime.month, datetime.day},
-               {datetime.hour, datetime.min, datetime.sec, datetime.usec}
-              },
-              datetime.timezone
-            })
-      :error -> :error
+  def cast(input) when is_binary(input) do
+    case Timex.parse(input, "{ISO:Extended}") do
+      {:ok, datetime} -> {:ok, datetime}
+      {:error, _} ->
+        case Ecto.DateTime.cast(input) do
+          {:ok, datetime} -> load({{{datetime.year, datetime.month, datetime.day}, {datetime.hour, datetime.min, datetime.sec, datetime.usec}}, "UTC"})
+          :error -> :error
+        end
     end
   end
 
