@@ -67,5 +67,18 @@ defmodule Timex.Ecto.Time do
     {:ok, {h, m, s, ms * 1_000}}
   end
   def dump(_), do: :error
+
+  def autogenerate(precision \\ :sec)
+  def autogenerate(:sec) do
+    {_date, {h, m, s}} = :erlang.universaltime
+    load({h, m, s, 0}) |> elem(1)
+  end
+  def autogenerate(:usec) do
+    timestamp = {_,_, usec} = :os.timestamp
+    {_date, {h, m, s}} = :calendar.now_to_datetime(timestamp)
+    load({h, m, s, usec}) |> elem(1)
+  end
+
+
 end
 

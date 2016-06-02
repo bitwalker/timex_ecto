@@ -55,5 +55,13 @@ defmodule Timex.Ecto.Date do
     {:ok, date}
   end
   def dump(_), do: :error
+
+  def autogenerate(precision \\ :sec)
+  def autogenerate(_) do
+    {date, {_, _, _}} = :erlang.universaltime
+    load(date) |> elem(1)
+  end
+
+
 end
 

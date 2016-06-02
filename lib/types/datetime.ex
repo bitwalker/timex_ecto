@@ -73,7 +73,7 @@ defmodule Timex.Ecto.DateTime do
     {date, {h, m, s}} = :erlang.universaltime
     load({date,{h, m, s, 0}}) |> elem(1)
   end
-  def autogenerate(:used) do
+  def autogenerate(:usec) do
     timestamp = {_,_, usec} = :os.timestamp
     {date, {h, m, s}} = :calendar.now_to_datetime(timestamp)
     load({date, {h, m, s, usec}}) |> elem(1)
