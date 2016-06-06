@@ -15,6 +15,14 @@ defmodule Timex.Ecto.Timestamps do
     end
   ```
 
+  By default this will generate a timestamp with seconds precision. If you
+  would like to generate a timestamp with more precision you can pass the
+  option `usec: true` to the macro.
+
+  ```
+  use Timex.Ecto.Timestamps, usec: true
+  ```
+
   For potentially easier use with Phoenix, add the following in `web/web.ex`:
 
   ```elixir

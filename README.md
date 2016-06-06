@@ -77,6 +77,18 @@ end
 By doing this, you bring the Timex timestamps into scope in all your models.
 
 
+### Precision
+
+By default Timex will generate a timestamp to the nearest second. If you would
+like to generate a timestamp with more precision you can pass the option
+`usec: true` to the macro. This will configure Timex to generate timestamps
+down to the microsecond level of precision.
+
+```
+use Timex.Ecto.Timestamps, usec: true
+```
+
+
 ## Example Usage
 
 The following is a simple test app I built for vetting this plugin:
