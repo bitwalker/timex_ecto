@@ -9,11 +9,6 @@ defmodule Timex.Ecto.Date do
   def type, do: :date
 
   @doc """
-  We can let Ecto handle blank input
-  """
-  defdelegate blank?(value), to: Ecto.Type
-
-  @doc """
   Handle casting to Timex.Ecto.Date
   """
   def cast(%DateTime{timezone: nil} = datetime), do: {:ok, %{datetime | :timezone => %TimezoneInfo{}}}

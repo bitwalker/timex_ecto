@@ -24,7 +24,7 @@ defmodule Timex.Ecto.DateTimeWithTimezone.Test do
                 }
 
   test "cast/1 map with calendar, year, month, day, hour, minute, seconds, ms" do
-    calendar = %{"calendar" => nil,
+    calendar = %{"calendar" => "gregorian",
                  "year"     => 2016,
                  "month"    => 02,
                  "day"      => 14,
@@ -32,13 +32,14 @@ defmodule Timex.Ecto.DateTimeWithTimezone.Test do
                  "minute"   => 34,
                  "second"   => 00,
                  "ms"       => 321,
-                 "timezone" => %{ "full_name" => "UTC"}
+                 "timezone" => %{ "full_name" => "UTC", "abbreviation" => "UTC", "offset_std" => 0, "offset_utc" => 0}
                 }
-    assert Timex.Ecto.DateTimeWithTimezone.cast(calendar) == {:ok, @example_date}
+    expected = %{@example_date | :timezone => %{@example_date.timezone | :from => nil, :until => nil}}
+    assert Timex.Ecto.DateTimeWithTimezone.cast(calendar) == {:ok, expected}
   end
 
   test "cast/1 map with calendar, year, month, day, hour, minute, seconds, millisecond" do
-    calendar = %{"calendar"    => nil,
+    calendar = %{"calendar"    => "gregorian",
                  "year"        => 2016,
                  "month"       => 02,
                  "day"         => 14,
@@ -46,9 +47,10 @@ defmodule Timex.Ecto.DateTimeWithTimezone.Test do
                  "minute"      => 34,
                  "second"      => 00,
                  "millisecond" => 321,
-                 "timezone"    => %{ "full_name" => "UTC"}
+                 "timezone"    => %{ "full_name" => "UTC", "abbreviation" => "UTC", "offset_std" => 0, "offset_utc" => 0}
                 }
-    assert Timex.Ecto.DateTimeWithTimezone.cast(calendar) == {:ok, @example_date}
+    expected = %{@example_date | :timezone => %{@example_date.timezone | :from => nil, :until => nil}}
+    assert Timex.Ecto.DateTimeWithTimezone.cast(calendar) == {:ok, expected}
   end
 
   test "cast/1 map with castable binaries" do

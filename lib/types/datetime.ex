@@ -9,29 +9,58 @@ defmodule Timex.Ecto.DateTime do
   def type, do: :datetime
 
   @doc """
-  We can let Ecto handle blank input
-  """
-  defdelegate blank?(value), to: Ecto.Type
-
-  @doc """
   Handle casting to Timex.Ecto.DateTime
   """
   def cast(%DateTime{timezone: nil} = datetime), do: {:ok, %{datetime | :timezone => %TimezoneInfo{}}}
   def cast(%DateTime{} = datetime),              do: {:ok, datetime}
   # Support embeds_one/embeds_many
-  def cast(%{"calendar" => _,
+  def cast(%{"calendar" => cal,
              "year" => y, "month" => m, "day" => d,
              "hour" => h, "minute" => mm, "second" => s, "ms" => ms,
-             "timezone" => %{"full_name" => tz_abbr}}) do
-    datetime = Timex.datetime({{y,m,d},{h,mm,s}}, tz_abbr)
-    {:ok, %{datetime | :millisecond => ms}}
+             "timezone" => %{"full_name" => tzname,
+                             "abbreviation" => abbr,
+                             "offset_std" => offset_std,
+                             "offset_utc" => offset_utc}}) do
+    dt = %DateTime{
+      :calendar => String.to_atom(cal),
+      :year => y,
+      :month => m,
+      :day => d,
+      :hour => h,
+      :minute => mm,
+      :second => s,
+      :millisecond => ms
+    }
+    tz = %TimezoneInfo{
+      full_name: tzname, abbreviation: abbr,
+      offset_std: offset_std, offset_utc: offset_utc,
+      from: nil, until: nil
+    }
+    {:ok, %{dt | :timezone => tz}}
   end
-  def cast(%{"calendar" => _,
+  def cast(%{"calendar" => cal,
              "year" => y, "month" => m, "day" => d,
              "hour" => h, "minute" => mm, "second" => s, "millisecond" => ms,
-             "timezone" => %{"full_name" => tz_abbr}}) do
-    datetime = Timex.datetime({{y,m,d},{h,mm,s}}, tz_abbr)
-    {:ok, %{datetime | :millisecond => ms}}
+             "timezone" => %{"full_name" => tzname,
+                             "abbreviation" => abbr,
+                             "offset_std" => offset_std,
+                             "offset_utc" => offset_utc}}) do
+    dt = %DateTime{
+      :calendar => String.to_atom(cal),
+      :year => y,
+      :month => m,
+      :day => d,
+      :hour => h,
+      :minute => mm,
+      :second => s,
+      :millisecond => ms
+    }
+    tz = %TimezoneInfo{
+      full_name: tzname, abbreviation: abbr,
+      offset_std: offset_std, offset_utc: offset_utc,
+      from: nil, until: nil
+    }
+    {:ok, %{dt | :timezone => tz}}
   end
   def cast(input) do
     case Ecto.DateTime.cast(input) do
@@ -53,9 +82,19 @@ defmodule Timex.Ecto.DateTime do
   @doc """
   Load from the native Ecto representation
   """
-  def load({{year, month, day}, {hour, min, sec, usec}}) do
-    datetime = Timex.datetime({{year, month, day}, {hour, min, sec}})
-    {:ok, %{datetime | :millisecond => Time.from(usec, :microseconds) |> Time.to_milliseconds}}
+  def load({{y, m, d}, {h, mm, s, usec}}) do
+    ms = Time.from(usec, :microseconds)
+         |> Time.to_milliseconds
+    dt = %DateTime{
+      :year => y,
+      :month => m,
+      :day => d,
+      :hour => h,
+      :minute => mm,
+      :second => s,
+      :millisecond => ms
+    }
+    {:ok, dt}
   end
   def load(_), do: :error
 

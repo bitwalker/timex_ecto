@@ -9,11 +9,6 @@ defmodule Timex.Ecto.Time do
   def type, do: :time
 
   @doc """
-  We can let Ecto handle blank input
-  """
-  defdelegate blank?(value), to: Ecto.Type
-
-  @doc """
   Handle casting to Timex.Ecto.Time
   """
   def cast(input) when is_binary(input) do
