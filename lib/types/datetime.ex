@@ -92,7 +92,8 @@ defmodule Timex.Ecto.DateTime do
       :hour => h,
       :minute => mm,
       :second => s,
-      :millisecond => ms
+      :millisecond => ms,
+      :timezone => %TimezoneInfo{}
     }
     {:ok, dt}
   end

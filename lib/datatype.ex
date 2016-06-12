@@ -19,7 +19,7 @@ defimpl Ecto.DataType, for: Timex.DateTime do
     :error
   end
 
-  def dump(%DateTime{} = date), do: Timex.Ecto.DateTime.dump(date)
+  def dump(datetime), do: Timex.Ecto.DateTime.dump(datetime)
 end
 
 defimpl Ecto.DataType, for: Timex.Date do
@@ -43,5 +43,5 @@ defimpl Ecto.DataType, for: Timex.Date do
     :error
   end
 
-  def dump(%Date{} = date), do: Timex.Ecto.Date.dump(date)
+  def dump(date), do: Timex.Ecto.Date.dump(date)
 end
