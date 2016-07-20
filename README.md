@@ -7,7 +7,7 @@
 
 Learn how to add `timex_ecto` to your Elixir project and start using it.
 
-**NOTE**: You must use Timex 3.0.2 or greater with timex_ecto 2.x!
+**NOTE**: You must use Timex 3.0.2 or greater with timex_ecto 3.x!
 
 ### Adding timex_ecto To Your Project
 
@@ -20,7 +20,7 @@ end
 
 defp deps do
   [{:timex, "~> 3.0"},
-   {:timex_ecto, "~> 2.0"}]
+   {:timex_ecto, "~> 3.0"}]
 end
 ```
 
