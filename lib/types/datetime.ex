@@ -76,6 +76,12 @@ defmodule Timex.Ecto.DateTime do
     }
     {:ok, dt}
   end
+  def cast(input) when is_binary(input) do
+    case Timex.parse(input, "{ISO:Extended}") do
+      {:ok, d}    -> Timex.to_datetime(d)
+      {:error, _} -> :error
+    end
+  end
   def cast(input) do
     case Timex.to_datetime(input) do
       {:error, _} ->
