@@ -44,6 +44,12 @@ defmodule Timex.Ecto.Date do
   @doc """
   Convert to native Ecto representation
   """
+  def dump(%DateTime{} = datetime) do
+    case Timex.Timezone.convert(datetime, "Etc/UTC") do
+      %DateTime{year: y, month: m, day: d} -> {:ok, {y,m,d}}
+      {:error, _} -> :error
+    end
+  end
   def dump(datetime) do
     case Timex.to_erl(datetime) do
       {:error, _}   -> :error

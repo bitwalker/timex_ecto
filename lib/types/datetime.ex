@@ -128,6 +128,18 @@ defmodule Timex.Ecto.DateTime do
   @doc """
   Convert to native Ecto representation
   """
+  def dump(%DateTime{} = datetime) do
+    case Timex.Timezone.convert(datetime, "Etc/UTC") do
+      %DateTime{} = dt ->
+        case Timex.to_naive_datetime(datetime) do
+          %NaiveDateTime{} = n ->
+            {us, _} = n.microsecond
+            {:ok, {{n.year, n.month, n.day}, {n.hour, n.minute, n.second, us}}}
+          {:error, _} -> :error
+        end
+      {:error, _} -> :error
+    end
+  end
   def dump(datetime) do
     case Timex.to_naive_datetime(datetime) do
       {:error, _} -> :error
