@@ -6,7 +6,7 @@ defmodule Timex.Ecto.Timestamps do
 
   ```
   defmodule User do
-    use Ecto.Model
+    use Ecto.Schema
     use Timex.Ecto.Timestamps
 
     schema "user" do
@@ -28,7 +28,7 @@ defmodule Timex.Ecto.Timestamps do
   ```elixir
   def model do
     quote do
-      use Ecto.Model
+      use Ecto.Schema
       use Timex.Ecto.Timestamps
     end
   end
