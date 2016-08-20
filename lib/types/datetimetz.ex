@@ -81,6 +81,10 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
              "year" => y, "month" => m, "day" => d,
              "hour" => h, "minute" => mm, "second" => s, "microsecond" => us,
              "time_zone" => tzname, "zone_abbr" => abbr, "utc_offset" => offset_utc, "std_offset" => offset_std}) do
+    case us do
+      us when is_integer(us) -> Timex.DateTime.Helpers.construct_microseconds(us)
+      {_,_} -> us
+    end
     dt = %DateTime{
       :year => y,
       :month => m,
@@ -129,7 +133,7 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
           :hour => h,
           :minute => mm,
           :second => s,
-          :microsecond => {usec, length(Integer.digits(usec))},
+          :microsecond => Timex.DateTime.Helpers.construct_microseconds(usec),
           :time_zone => tz.full_name,
           :zone_abbr => tz.abbreviation,
           :utc_offset => tz.offset_utc,
@@ -145,7 +149,7 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
             :hour => h,
             :minute => mm,
             :second => s,
-            :microsecond => {usec, length(Integer.digits(usec))},
+            :microsecond => Timex.DateTime.Helpers.construct_microseconds(usec),
             :time_zone => b.full_name,
             :zone_abbr => b.abbreviation,
             :utc_offset => b.offset_utc,
@@ -158,7 +162,7 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
             :hour => h,
             :minute => mm,
             :second => s,
-            :microsecond => {usec, length(Integer.digits(usec))},
+            :microsecond => Timex.DateTime.Helpers.construct_microseconds(usec),
             :time_zone => a.full_name,
             :zone_abbr => a.abbreviation,
             :utc_offset => a.offset_utc,
