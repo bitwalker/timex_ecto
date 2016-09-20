@@ -177,13 +177,8 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
   @doc """
   Convert to the native Ecto representation
   """
-  def dump(datetime) do
-    case Timex.to_naive_datetime(datetime) do
-      {:error, _} -> :error
-      %NaiveDateTime{} = n ->
-        {us, _} = n.microsecond
-        {:ok, {{n.year, n.month, n.day}, {n.hour, n.minute, n.second, us}}}
-    end
+  def dump(%DateTime{microsecond: {us, _}, time_zone: tzname} = d) do
+    {:ok, {{{d.year, d.month, d.day}, {d.hour, d.minute, d.second, us}}, tzname}}
   end
 
   def autogenerate(precision \\ :sec)
