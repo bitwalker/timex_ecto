@@ -182,5 +182,5 @@ Documentation for Timex and timex_ecto are available
 
 ## License
 
-This project is MIT licended. See the LICENSE file in this repo.
+This project is MIT licensed. See the LICENSE file in this repo.
 
