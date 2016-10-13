@@ -56,7 +56,7 @@ defmodule Timex.Ecto.Time do
     {:ok, d}
   end
 
-  def load(%Postgrex.Interval{days: days, months: months, secs: seconds}) do
+  def load(%{:__struct__ => Postgrex.Interval, :days => days, :months => months, :secs => seconds}) do
     d = Duration.from_clock({ ((months * 30) + days) * 24, 0, seconds, 0 })
     {:ok, d}
   end
