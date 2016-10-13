@@ -34,7 +34,7 @@ defmodule TimexEcto.Mixfile do
   end
 
   defp package do
-    [ files: ["lib", "priv", "mix.exs", "README.md", "LICENSE.md"],
+    [ files: ["lib", "mix.exs", "README.md", "LICENSE.md"],
       maintainers: ["Paul Schoenfelder"],
       licenses: ["MIT"],
       description: "A plugin for Ecto and Timex which allows use of Timex types with Ecto",
