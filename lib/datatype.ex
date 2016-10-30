@@ -1,4 +1,4 @@
-defimpl Ecto.DataType, for: DateTime do
+defimpl Ecto.DataType, for: TimexDateTime do
   use Timex
 
   def cast(%DateTime{} = datetime, type) when type in [:date, Timex.Ecto.Date] do
@@ -23,7 +23,7 @@ defimpl Ecto.DataType, for: DateTime do
   def dump(datetime), do: Timex.Ecto.DateTime.dump(datetime)
 end
 
-defimpl Ecto.DataType, for: NaiveDateTime do
+defimpl Ecto.DataType, for: TimexNaiveDateTime do
   use Timex
 
   def cast(%NaiveDateTime{} = datetime, type) when type in [:date, Timex.Ecto.Date] do
@@ -48,7 +48,7 @@ defimpl Ecto.DataType, for: NaiveDateTime do
   def dump(datetime), do: Timex.Ecto.DateTime.dump(datetime)
 end
 
-defimpl Ecto.DataType, for: Date do
+defimpl Ecto.DataType, for: TimexDate do
   use Timex
 
   def cast(%Date{} = date, type) when type in [:date, Timex.Ecto.Date] do
