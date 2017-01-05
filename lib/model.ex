@@ -45,9 +45,9 @@ defmodule Timex.Ecto.Timestamps do
       _           -> [:sec]
     end
     autogenerate_opts = [autogenerate: {Timex.Ecto.DateTime, :autogenerate, autogen_args}]
-    escaped_opts = opts |> Dict.merge(autogenerate_opts) |> Macro.escape
+    escaped_opts = opts |> Keyword.merge(autogenerate_opts) |> Macro.escape
     quote do
-      @timestamps_opts unquote(Dict.merge(escaped_opts, @default_timestamps_opts))
+      @timestamps_opts unquote(Keyword.merge(escaped_opts, @default_timestamps_opts))
     end
   end
 end
