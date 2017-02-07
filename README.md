@@ -47,6 +47,10 @@ defmodule User do
 end
 ```
 
+## Using DateTimeWithTimezone
+
+Please see the documentation [here](https://hexdocs.pm/timex_ecto/Timex.Ecto.DateTimeWithTimezone.html#content).
+
 ### Using Timex with Ecto's `timestamps` macro
 
 Super simple! Your timestamps will now be `Timex.DateTime` structs instead of `Ecto.DateTime` structs.
