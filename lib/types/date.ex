@@ -36,9 +36,26 @@ defmodule Timex.Ecto.Date do
   end
 
   @doc """
-  Load from the native Ecto representation
+  Creates a Timex.Date from from a passed in date.
+
+  Returns `{:ok, Timex.Date}` when successful.
+
+  Returns `:error` if the type passed in is either not an erl date nor Ecto.Date
+
+  ## Examples
+     Using an Ecto.Date:
+
+      iex> Ecto.Date.from_erl({2017, 2, 1})
+      ...> |> Timex.Ecto.Date.load
+      {:ok, ~D[2017-02-01]}
+
+    Using an erl date:
+
+      iex> Timex.Ecto.Date.load({2017, 2, 1})
+      {:ok, ~D[2017-02-01]}
   """
   def load({_year, _month, _day} = date), do: {:ok, Timex.to_date(date)}
+  def load(%Ecto.Date{} = date), do: {:ok, Ecto.Date.to_erl(date) |> Timex.to_date}
   def load(_), do: :error
 
   @doc """
