@@ -37,7 +37,7 @@ defmodule Timex.Ecto.Timestamps do
   This will bring Timex timestamps into scope in all your models
 
   """
-  
+
   defmacro __using__(opts) do
     timestamps_type = case Keyword.fetch(opts, :type) do
       {:ok, type} -> type
@@ -50,8 +50,7 @@ defmodule Timex.Ecto.Timestamps do
     autogenerate_opts = [autogenerate: {timestamps_type, :autogenerate, autogen_args}]
     escaped_opts = opts |> Keyword.merge(autogenerate_opts) |> Macro.escape
     quote do
-      timestamps_opts = [type: unquote(timestamps_type)]
-      @timestamps_opts unquote(Keyword.merge(escaped_opts, timestamps_opts))
+      @timestamps_opts unquote(escaped_opts)
     end
   end
 end
