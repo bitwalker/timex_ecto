@@ -29,7 +29,7 @@ defmodule TimexEcto.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [{:timex, "~> 3.0"},
-     {:ecto, git: "https://github.com/kenuyx/ecto", branch: "master"},
+     {:ecto, git: "https://github.com/kenuyx/ecto.git", branch: "master"},
      {:ex_doc, "~> 0.13", only: :dev}]
   end
 
