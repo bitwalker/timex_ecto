@@ -28,6 +28,7 @@ defmodule TimexEcto.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
+<<<<<<< HEAD
     [{:timex, "~> 3.1"},
      {:ecto, "~> 2.1"},
      {:ex_doc, "~> 0.13", only: :dev}]
