@@ -56,10 +56,6 @@ Please see the documentation [here](https://hexdocs.pm/timex_ecto/Timex.Ecto.Dat
 
 ### Change the default timestamps type of Ecto's `timestamps` macro
 
-The timestamps type of Ecto's `timestamps` macro can be easily changed in either of the following ways.
-
-#### `@timestamps_opts`
-
 According to the documentation for [Ecto.Schema.timestamps/1](https://hexdocs.pm/ecto/Ecto.Schema.html#timestamps/1), it is simple to change the default timestamps type to others by setting `@timestamps_opts`. For example, you can use `Timex.Ecto.TimestampWithTimezone` with the following options.
 
 ```elixir
@@ -76,7 +72,7 @@ defmodule User do
 end
 ```
 
-#### `use Timex.Ecto.Timestamps`
+### ~~Using Timex with Ecto's `timestamps` macro~~ DEPRECATED
 
 Super simple! Your timestamps will now be `Timex.DateTime` structs instead of `Ecto.DateTime` structs.
 
@@ -92,21 +88,7 @@ defmodule User do
 end
 ```
 
-Also `type` option can be used as the same way as in `@timestamps_opts`. Supposed `Timex.Ecto.TimestampWithTimezone` is what you want.
-
-```elixir
-defmodule User do
-  use Ecto.Schema
-  use Timex.Ecto.Timestamps, type: Timex.Ecto.TimestampWithTimezone
-
-  schema "users" do
-    field :name, :string
-    timestamps
-  end
-end
-```
-
-### Using with Phoenix
+### ~~Using with Phoenix~~ DEPRECATED
 
 Phoenix allows you to apply defaults globally to Ecto models via `web/web.ex` by changing the `model` function like so:
 
@@ -130,11 +112,8 @@ like to generate a timestamp with more precision you can pass the option
 down to the microsecond level of precision.
 
 ```elixir
-# use @timestamps_opts
 @timestamps_opts [type: Timex.DateTime,
                   autogenerate: {Timex.DateTime, :autogenerate, [:usec]}]
-# or use Timex.Ecto.Timestamps
-use Timex.Ecto.Timestamps, usec: true
 ```
 
 
@@ -149,7 +128,9 @@ end
 
 defmodule EctoTest.User do
   use Ecto.Schema
-  use Timex.Ecto.Timestamps
+  
+  @timestamps_opts [type: Timex.Ecto.DateTime,
+                    autogenerate: {Timex.Ecto.DateTime, :autogenerate}]
 
   schema "users" do
     field :name, :string
@@ -158,6 +139,8 @@ defmodule EctoTest.User do
     field :datetime_test,    Timex.Ecto.DateTime
     field :datetimetz_test,  Timex.Ecto.DateTimeWithTimezone
     field :timestamptz_test, Timex.Ecto.TimestampWithTimezone
+    
+    timestamps
   end
 end
 
