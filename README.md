@@ -206,20 +206,20 @@ iex(1)> EctoTest.seed
 %EctoTest.User{__meta__: %Ecto.Schema.Metadata{source: "users",
   state: :loaded},
  date_test: ~D[2015-06-25],
- datetime_test: #<DateTime(2015-06-25T21:45:43.457Z Etc/UTC),
- datetimetz_test: #<DateTime(2015-06-25T21:45:43.457+02:00 Europe/Copenhagen),
- timestamptz_test: #<DateTime(2015-06-25T13:45:43.457-06:00 America/Chicago),
- name: "Paul", time_test: #<Duration(P45Y6M6DT19H45M43.456856S)
+ datetime_test: #<DateTime(2015-06-25T21:45:43.457Z Etc/UTC)>,
+ datetimetz_test: #<DateTime(2015-06-25T21:45:43.457+02:00 Europe/Copenhagen)>,
+ timestamptz_test: #<DateTime(2015-06-25T13:45:43.457-06:00 America/Chicago)>,
+ name: "Paul", time_test: #<Duration(P45Y6M6DT19H45M43.456856S)>}
 iex(2)> EctoTest.all
 
 14:45:46.721 [debug] SELECT u0."id", u0."name", u0."date_test", u0."time_test", u0."datetime_test", u0."datetimetz_test" FROM "users" AS u0 [] OK query=0.7ms
 [%EctoTest.User{__meta__: %Ecto.Schema.Metadata{source: "users",
    state: :loaded},
   date_test: ~D[2015-06-25],
-  datetime_test: #<DateTime(2015-06-25T21:45:43.457Z Etc/UTC),
-  datetimetz_test: #<DateTime(2015-06-25T21:45:43.457+02:00 Europe/Copenhagen),
-  timestamptz_test: #<DateTime(2015-06-25T13:45:43.457-06:00 America/Chicago),
-  name: "Paul", time_test: #<Duration(PT19H45M43S)>]
+  datetime_test: #<DateTime(2015-06-25T21:45:43.457Z Etc/UTC)>,
+  datetimetz_test: #<DateTime(2015-06-25T21:45:43.457+02:00 Europe/Copenhagen)>,
+  timestamptz_test: #<DateTime(2015-06-25T13:45:43.457-06:00 America/Chicago)>,
+  name: "Paul", time_test: #<Duration(PT19H45M43S)>}]
 iex(3)>
 ```
 
