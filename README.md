@@ -33,16 +33,19 @@ defmodule User do
   schema "users" do
     field :name, :string
     # Stored as an ISO date (year-month-day), reified as Date
-    field :a_date,       Timex.Ecto.Date # Timex version of :date
+    field :a_date,        Timex.Ecto.Date # Timex version of :date
     # Stored as an ISO time (hour:minute:second.fractional), reified as Timex.Duration
-    field :a_time,       Timex.Ecto.Time # Timex version of :time
+    field :a_time,        Timex.Ecto.Time # Timex version of :time
     # Stored as an ISO 8601 datetime in UTC (year-month-day hour:minute:second.fractional),
     # reified as DateTime in UTC
-    field :a_datetime,   Timex.Ecto.DateTime # Timex version of :datetime
+    field :a_datetime,    Timex.Ecto.DateTime # Timex version of :datetime
     # DateTimeWithTimezone is a special case, please see the `Using DateTimeWithTimezone` section!
     # Stored as a tuple of ISO 8601 datetime and timezone name ((year-month-day hour:minute:second.fractional, timezone)),
     # reified as DateTime in stored timezone
-    field :a_datetimetz, Timex.Ecto.DateTimeWithTimezone # A custom datatype (:datetimetz) implemented by Timex
+    field :a_datetimetz,  Timex.Ecto.DateTimeWithTimezone # A custom datatype (:datetimetz) implemented by Timex
+    # Stored as an ISO 8601 datetime in UTC (year-month-day hour:minute:second.fractional),
+    # reified as DateTime in local timezone
+    field :a_timestamptz, Timex.Ecto.TimestampWithTimezone # Timex version of :timestamptz
   end
 end
 ```
@@ -51,7 +54,29 @@ end
 
 Please see the documentation [here](https://hexdocs.pm/timex_ecto/Timex.Ecto.DateTimeWithTimezone.html#content).
 
-### Using Timex with Ecto's `timestamps` macro
+### Change the default timestamps type of Ecto's `timestamps` macro
+
+The timestamps type of Ecto's `timestamps` macro can be easily changed in either of the following ways.
+
+#### `@timestamps_opts`
+
+According to the documentation for [Ecto.Schema.timestamps/1](https://hexdocs.pm/ecto/Ecto.Schema.html#timestamps/1), it is simple to change the default timestamps type to others by setting `@timestamps_opts`. For example, you can use `Timex.Ecto.TimestampWithTimezone` with the following options.
+
+```elixir
+defmodule User do
+  use Ecto.Schema
+  
+  @timestamps_opts [type: Timex.Ecto.TimestampWithTimezone,
+                    autogenerate: {Timex.Ecto.TimestampWithTimezone, :autogenerate}]
+
+  schema "users" do
+    field :name, :string
+    timestamps
+  end
+end
+```
+
+#### `use Timex.Ecto.Timestamps`
 
 Super simple! Your timestamps will now be `Timex.DateTime` structs instead of `Ecto.DateTime` structs.
 
@@ -59,6 +84,20 @@ Super simple! Your timestamps will now be `Timex.DateTime` structs instead of `E
 defmodule User do
   use Ecto.Schema
   use Timex.Ecto.Timestamps
+
+  schema "users" do
+    field :name, :string
+    timestamps
+  end
+end
+```
+
+Also `type` option can be used as the same way as in `@timestamps_opts`. Supposed `Timex.Ecto.TimestampWithTimezone` is what you want.
+
+```elixir
+defmodule User do
+  use Ecto.Schema
+  use Timex.Ecto.Timestamps, type: Timex.Ecto.TimestampWithTimezone
 
   schema "users" do
     field :name, :string
@@ -90,7 +129,11 @@ like to generate a timestamp with more precision you can pass the option
 `usec: true` to the macro. This will configure Timex to generate timestamps
 down to the microsecond level of precision.
 
-```
+```elixir
+# use @timestamps_opts
+@timestamps_opts [type: Timex.DateTime,
+                  autogenerate: {Timex.DateTime, :autogenerate, [:usec]}]
+# or use Timex.Ecto.Timestamps
 use Timex.Ecto.Timestamps, usec: true
 ```
 
@@ -110,10 +153,11 @@ defmodule EctoTest.User do
 
   schema "users" do
     field :name, :string
-    field :date_test,       Timex.Ecto.Date
-    field :time_test,       Timex.Ecto.Time
-    field :datetime_test,   Timex.Ecto.DateTime
-    field :datetimetz_test, Timex.Ecto.DateTimeWithTimezone
+    field :date_test,        Timex.Ecto.Date
+    field :time_test,        Timex.Ecto.Time
+    field :datetime_test,    Timex.Ecto.DateTime
+    field :datetimetz_test,  Timex.Ecto.DateTimeWithTimezone
+    field :timestamptz_test, Timex.Ecto.TimestampWithTimezone
   end
 end
 
@@ -125,11 +169,12 @@ defmodule EctoTest do
   alias EctoTest.Repo
 
   def seed do
-    time       = Duration.now
-    date       = Timex.today
-    datetime   = Timex.now
-    datetimetz = Timezone.convert(datetime, "Europe/Copenhagen")
-    u = %User{name: "Paul", date_test: date, time_test: time, datetime_test: datetime, datetimetz_test: datetimetz}
+    time        = Duration.now
+    date        = Timex.today
+    datetime    = Timex.now
+    datetimetz  = Timezone.convert(datetime, "Europe/Copenhagen")
+    timestamptz = Timex.local
+    u = %User{name: "Paul", date_test: date, time_test: time, datetime_test: datetime, datetimetz_test: datetimetz, timestamptz_test: timestamptz}
     Repo.insert!(u)
   end
 
@@ -163,6 +208,7 @@ iex(1)> EctoTest.seed
  date_test: ~D[2015-06-25],
  datetime_test: #<DateTime(2015-06-25T21:45:43.457Z Etc/UTC),
  datetimetz_test: #<DateTime(2015-06-25T21:45:43.457+02:00 Europe/Copenhagen),
+ timestamptz_test: #<DateTime(2015-06-25T13:45:43.457-06:00 America/Chicago),
  name: "Paul", time_test: #<Duration(P45Y6M6DT19H45M43.456856S)
 iex(2)> EctoTest.all
 
@@ -172,6 +218,7 @@ iex(2)> EctoTest.all
   date_test: ~D[2015-06-25],
   datetime_test: #<DateTime(2015-06-25T21:45:43.457Z Etc/UTC),
   datetimetz_test: #<DateTime(2015-06-25T21:45:43.457+02:00 Europe/Copenhagen),
+  timestamptz_test: #<DateTime(2015-06-25T13:45:43.457-06:00 America/Chicago),
   name: "Paul", time_test: #<Duration(PT19H45M43S)>]
 iex(3)>
 ```
@@ -181,7 +228,7 @@ iex(3)>
 Documentation for Timex and timex_ecto are available
 [here], and on [hexdocs].
 
-[here]: https://timex.readme.io
+[here]: https://hexdocs.pm/timex
 [hexdocs]: http://hexdocs.pm/timex_ecto/
 
 ## License

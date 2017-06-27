@@ -102,6 +102,7 @@ defmodule Timex.Ecto.TimestampWithTimezone do
   Load from the native Ecto representation
   """
   def load({{_, _, _}, {_, _, _, _}} = dt), do: to_local(Timex.to_datetime(dt))
+  def load({{_, _, _}, {_, _, _}} = dt), do: to_local(Timex.to_datetime(dt))
   def load(_), do: :error
 
   @doc """
