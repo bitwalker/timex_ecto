@@ -72,14 +72,15 @@ defmodule User do
 end
 ```
 
-### ~~Using Timex with Ecto's `timestamps` macro~~ DEPRECATED
+### ~~Using Timex with Ecto's `timestamps` macro~~
 
 Super simple! Your timestamps will now be `Timex.DateTime` structs instead of `Ecto.DateTime` structs.
 
 ```elixir
 defmodule User do
   use Ecto.Schema
-  use Timex.Ecto.Timestamps
+
+  @timestamps_opts [type: Timex.DateTime]
 
   schema "users" do
     field :name, :string
@@ -88,7 +89,7 @@ defmodule User do
 end
 ```
 
-### ~~Using with Phoenix~~ DEPRECATED
+### ~~Using with Phoenix~~
 
 Phoenix allows you to apply defaults globally to Ecto models via `web/web.ex` by changing the `model` function like so:
 
@@ -96,7 +97,8 @@ Phoenix allows you to apply defaults globally to Ecto models via `web/web.ex` by
 def model do
   quote do
     use Ecto.Schema
-    use Timex.Ecto.Timestamps
+
+    @timestamps_opts [type: Timex.DateTime]
   end
 end
 ```
