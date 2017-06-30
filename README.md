@@ -74,13 +74,13 @@ end
 
 ### ~~Using Timex with Ecto's `timestamps` macro~~
 
-Super simple! Your timestamps will now be `Timex.DateTime` structs instead of `Ecto.DateTime` structs.
+Super simple! Your timestamps will now be `Timex.Ecto.DateTime` structs instead of `Ecto.DateTime` structs.
 
 ```elixir
 defmodule User do
   use Ecto.Schema
 
-  @timestamps_opts [type: Timex.DateTime]
+  @timestamps_opts [type: Timex.Ecto.DateTime]
 
   schema "users" do
     field :name, :string
@@ -98,7 +98,7 @@ def model do
   quote do
     use Ecto.Schema
 
-    @timestamps_opts [type: Timex.DateTime]
+    @timestamps_opts [type: Timex.Ecto.DateTime]
   end
 end
 ```
@@ -114,8 +114,8 @@ like to generate a timestamp with more precision you can pass the option
 down to the microsecond level of precision.
 
 ```elixir
-@timestamps_opts [type: Timex.DateTime,
-                  autogenerate: {Timex.DateTime, :autogenerate, [:usec]}]
+@timestamps_opts [type: Timex.Ecto.DateTime,
+                  autogenerate: {Timex.Ecto.DateTime, :autogenerate, [:usec]}]
 ```
 
 
@@ -132,7 +132,7 @@ defmodule EctoTest.User do
   use Ecto.Schema
   
   @timestamps_opts [type: Timex.Ecto.DateTime,
-                    autogenerate: {Timex.Ecto.DateTime, :autogenerate}]
+                    autogenerate: {Timex.Ecto.DateTime, :autogenerate, []}]
 
   schema "users" do
     field :name, :string
@@ -219,4 +219,3 @@ Documentation for Timex and timex_ecto are available
 ## License
 
 This project is MIT licensed. See the LICENSE file in this repo.
-
