@@ -30,6 +30,7 @@ defmodule TimexEcto.Mixfile do
   defp deps do
     [{:timex, "~> 3.1"},
      {:ecto, "~> 2.1"},
+     {:postgrex, "~> 0.13", only: :test},
      {:ex_doc, "~> 0.13", only: :dev}]
   end
 
