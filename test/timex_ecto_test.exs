@@ -96,7 +96,7 @@ if Code.ensure_loaded?(Postgrex) do
 
       query =
         from u in User,
-        where: u.datetimetz_test == ^Timezone.convert(datetime, "Europe/Copenhagen"),
+        where: u.datetimetz_test == type(^Timezone.convert(datetime, "Europe/Copenhagen"), Timex.Ecto.DateTimeWithTimezone),
         select: u
       [%User{datetimetz_test: ^datetimetz}] = Repo.all(query)
     end
