@@ -1,7 +1,4 @@
 if Code.ensure_loaded?(Postgrex) do
-  defmodule EctoTest.Repo do
-    use Ecto.Repo, otp_app: :timex_ecto
-  end
 
   defmodule EctoTest.User do
     use Ecto.Schema
