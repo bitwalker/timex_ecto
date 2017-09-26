@@ -33,6 +33,25 @@ if Code.ensure_loaded?(Postgrex) do
     end
   end
 
+  defmodule EctoTest.Migrations.CustomTypes do
+    use Ecto.Migration
+
+    def up do
+      execute """
+      CREATE TYPE datetimetz AS (
+      dt timestamptz,
+      tz varchar
+      );
+      """
+    end
+
+    def down do
+      execute """
+      DROP TYPE datetimetz;
+      """
+    end
+  end
+
   defmodule EctoTest.Migrations.Setup do
     use Ecto.Migration
 
@@ -62,7 +81,7 @@ if Code.ensure_loaded?(Postgrex) do
       Application.ensure_all_started(:postgrex)
       Application.ensure_all_started(:ecto)
       EctoTest.App.start(:normal, [])
-      Ecto.Migrator.run(Repo, [{0, EctoTest.Migrations.Setup}], :up, [all: true])
+      Ecto.Migrator.run(Repo, [{0, EctoTest.Migrations.CustomTypes}, {1, EctoTest.Migrations.Setup}], :up, [all: true])
       Ecto.Adapters.SQL.Sandbox.mode(EctoTest.Repo, :manual)
     end
 
