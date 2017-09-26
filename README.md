@@ -61,13 +61,13 @@ According to the documentation for [Ecto.Schema.timestamps/1](https://hexdocs.pm
 ```elixir
 defmodule User do
   use Ecto.Schema
-  
+
   @timestamps_opts [type: Timex.Ecto.TimestampWithTimezone,
                     autogenerate: {Timex.Ecto.TimestampWithTimezone, :autogenerate}]
 
   schema "users" do
     field :name, :string
-    timestamps
+    timestamps()
   end
 end
 ```
@@ -84,7 +84,7 @@ defmodule User do
 
   schema "users" do
     field :name, :string
-    timestamps
+    timestamps()
   end
 end
 ```
@@ -130,7 +130,7 @@ end
 
 defmodule EctoTest.User do
   use Ecto.Schema
-  
+
   @timestamps_opts [type: Timex.Ecto.DateTime,
                     autogenerate: {Timex.Ecto.DateTime, :autogenerate, []}]
 
@@ -141,8 +141,8 @@ defmodule EctoTest.User do
     field :datetime_test,    Timex.Ecto.DateTime
     field :datetimetz_test,  Timex.Ecto.DateTimeWithTimezone
     field :timestamptz_test, Timex.Ecto.TimestampWithTimezone
-    
-    timestamps
+
+    timestamps()
   end
 end
 

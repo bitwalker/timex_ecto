@@ -17,7 +17,7 @@ if Code.ensure_loaded?(Postgrex) do
       field :datetimetz_test,  Timex.Ecto.DateTimeWithTimezone
       field :timestamptz_test, Timex.Ecto.TimestampWithTimezone
 
-      timestamps
+      timestamps()
     end
   end
 
@@ -45,7 +45,7 @@ if Code.ensure_loaded?(Postgrex) do
         add :datetimetz_test, :datetimetz
         add :timestamptz_test, :timestamptz
 
-        timestamps
+        timestamps()
       end
     end
   end

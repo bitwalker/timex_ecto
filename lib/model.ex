@@ -11,7 +11,7 @@ defmodule Timex.Ecto.Timestamps do
 
     schema "user" do
       field :name, :string
-      timestamps
+      timestamps()
     end
   ```
 
