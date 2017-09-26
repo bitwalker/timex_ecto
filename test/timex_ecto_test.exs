@@ -104,11 +104,15 @@ if Code.ensure_loaded?(Postgrex) do
         from u in User,
         select: u
 
-      [%User{date_test: ^date,
-             time_test: ^time,
-             datetime_test: ^datetime,
-             datetimetz_test: ^datetimetz,
-             timestamptz_test: ^timestamptz}] = Repo.all(query)
+      [same_user] = Repo.all(query)
+      assert same_user.name == "Paul"
+      assert same_user.date_test == date
+      assert same_user.time_test == time
+
+      # To avoid microsecond mismatches on a CI server
+      assert same_user.datetime_test |> DateTime.to_string == datetime |> DateTime.to_string
+      assert same_user.datetimetz_test |> DateTime.to_string == datetimetz |> DateTime.to_string
+      assert same_user.timestamptz_test |> DateTime.to_string == timestamptz |> DateTime.to_string
 
       query =
         from u in User,
