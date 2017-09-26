@@ -8,6 +8,9 @@ elixir:
   - 1.5
 env: MIX_ENV=test
 install:
+  - mix local.hex --force
+  - mix local.rebar --force
+  - mix do deps.get, compile
   - mix ecto.create
 notifications:
   email:
