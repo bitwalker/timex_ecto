@@ -63,7 +63,7 @@ defmodule User do
   use Ecto.Schema
 
   @timestamps_opts [type: Timex.Ecto.TimestampWithTimezone,
-                    autogenerate: {Timex.Ecto.TimestampWithTimezone, :autogenerate}]
+                    autogenerate: {Timex.Ecto.TimestampWithTimezone, :autogenerate, []}]
 
   schema "users" do
     field :name, :string
@@ -72,7 +72,7 @@ defmodule User do
 end
 ```
 
-### ~~Using Timex with Ecto's `timestamps` macro~~
+### Using Timex with Ecto's `timestamps` macro
 
 Super simple! Your timestamps will now be `Timex.Ecto.DateTime` structs instead of `Ecto.DateTime` structs.
 
@@ -89,7 +89,7 @@ defmodule User do
 end
 ```
 
-### ~~Using with Phoenix~~
+### Using with Phoenix
 
 Phoenix allows you to apply defaults globally to Ecto models via `web/web.ex` by changing the `model` function like so:
 
