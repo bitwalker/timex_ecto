@@ -106,12 +106,34 @@ defmodule Timex.Ecto.DateTimeWithTimezone do
       {:error, _} -> :error
     end
   end
+  def cast(input) when is_map(input) do
+    case Timex.Convert.convert_map(input) do
+      %DateTime{} = d ->
+        {:ok, d}
+      %_{} = result ->
+        case Timex.to_datetime(result, "Etc/UTC") do
+          {:error, _} ->
+            case Ecto.DateTime.cast(input) do
+              {:ok, d} ->
+                load({{{d.year, d.month, d.day}, {d.hour, d.min, d.sec, d.usec}}, "Etc/UTC"})
+              :error ->
+                :error
+            end
+          %DateTime{} = d ->
+            {:ok, d}
+        end
+      {:error, _} ->
+        :error
+    end
+  end
   def cast(input) do
-    case Timex.to_datetime(input) do
+    case Timex.to_datetime(input, "Etc/UTC") do
       {:error, _} ->
         case Ecto.DateTime.cast(input) do
-          {:ok, d} -> load({{{d.year, d.month, d.day}, {d.hour, d.min, d.sec, d.usec}}, "Etc/UTC"})
-          :error -> :error
+          {:ok, d} -> 
+            load({{{d.year, d.month, d.day}, {d.hour, d.min, d.sec, d.usec}}, "Etc/UTC"})
+          :error -> 
+            :error
         end
       %DateTime{} = d ->
         {:ok, d}
