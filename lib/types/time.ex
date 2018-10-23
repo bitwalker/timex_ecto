@@ -29,8 +29,7 @@ defmodule Timex.Ecto.Time do
   end
   # Support embeds_one/embeds_many
   def cast(%{"megaseconds" => m, "seconds" => s, "microseconds" => us}) do
-    clock = Duration.to_clock({m,s,us})
-    load(clock)
+    {:ok, Duration.from_erl({m,s,us})}
   end
   def cast(%{"hour" => h, "minute" => mm, "second" => s, "ms" => ms}) do
     load({h, mm, s, ms * 1_000})
