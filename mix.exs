@@ -2,13 +2,16 @@ defmodule TimexEcto.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :timex_ecto,
-     version: "3.4.0",
-     elixir: "~> 1.6",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps(),
-     package: package()]
+    [
+      app: :timex_ecto,
+      version: "3.4.0",
+      elixir: "~> 1.6",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      deps: deps(),
+      package: package(),
+      elixirc_paths: elixirc_paths(Mix.env())
+    ]
   end
 
   # Configuration for the OTP application
@@ -42,4 +45,7 @@ defmodule TimexEcto.Mixfile do
      links: %{"GitHub": "https://github.com/bitwalker/timex_ecto",
               "Docs": "https://timex.readme.io"}]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end
