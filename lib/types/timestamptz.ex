@@ -62,7 +62,7 @@ defmodule Timex.Ecto.TimestampWithTimezone do
              "hour" => h, "minute" => mm, "second" => s, "microsecond" => us,
              "time_zone" => tzname, "zone_abbr" => abbr, "utc_offset" => offset_utc, "std_offset" => offset_std}) do
     case us do
-      us when is_integer(us) -> Timex.DateTime.Helpers.construct_microseconds(us)
+      us when is_integer(us) -> Timex.DateTime.Helpers.construct_microseconds({us, -1})
       {_,_} -> us
     end
     dt = %DateTime{
