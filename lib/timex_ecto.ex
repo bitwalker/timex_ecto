@@ -1,3 +1,8 @@
 defmodule Timex.Ecto do
-  @moduledoc File.read!("README.md")
+  @external_resource "README.md"
+
+  @moduledoc "README.md"
+             |> File.read!()
+             |> String.split("<!-- MDOC !-->")
+             |> Enum.fetch!(1)
 end

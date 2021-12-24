@@ -1,26 +1,39 @@
-## Timex Plugin for Ecto
+## Timex Ecto
 
 [![Master](https://travis-ci.org/bitwalker/timex_ecto.svg?branch=master)](https://travis-ci.org/bitwalker/timex_ecto)
-[![Hex.pm Version](http://img.shields.io/hexpm/v/timex_ecto.svg?style=flat)](https://hex.pm/packages/timex_ecto)
+[![Hex Version](https://img.shields.io/hexpm/v/timex_ecto.svg?style=flat)](https://hex.pm/packages/timex_ecto)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg?style=flat)](https://hexdocs.pm/timex_ecto/)
+[![Total Download](https://img.shields.io/hexpm/dt/timex_ecto.svg?style=flat)](https://hex.pm/packages/timex_ecto)
+[![License](https://img.shields.io/hexpm/l/timex_ecto.svg?style=flat)](https://github.com/bitwalker/timex_ecto/blob/master/LICENSE.md)
+[![Last Updated](https://img.shields.io/github/last-commit/bitwalker/timex_ecto.svg?style=flat)](https://github.com/bitwalker/timex_ecto/commits/master)
+
+<!-- MDOC !-->
+
+An adapter for using Timex DateTimes with Ecto
 
 ## Getting Started
 
-Learn how to add `timex_ecto` to your Elixir project and start using it.
+Learn how to add `:timex_ecto` to your Elixir project and start using it.
 
 **NOTE**: You must use Timex 3.0.2 or greater with timex_ecto 3.x!
 
 ### Adding timex_ecto To Your Project
 
-To use timex_ecto with your projects, edit your `mix.exs` file and add it as a dependency:
+To use `:timex_ecto` with your projects, edit your `mix.exs` file and add it as a dependency:
 
 ```elixir
 def application do
- [ applications: [:timex_ecto, ...], ...]
+  [
+    applications: [:timex_ecto, ...],
+    ...
+  ]
 end
 
 defp deps do
-  [{:timex, "~> 3.0"},
-   {:timex_ecto, "~> 3.0"}]
+  [
+    {:timex, "~> 3.0"},
+    {:timex_ecto, "~> 3.0"}
+  ]
 end
 ```
 
@@ -91,7 +104,7 @@ end
 
 ### Using with Phoenix
 
-Phoenix allows you to apply defaults globally to Ecto models via `web/web.ex` by changing the `model` function like so:
+Phoenix allows you to apply defaults globally to `Ecto` models via `web/web.ex` by changing the `model` function like so:
 
 ```elixir
 def model do
@@ -208,6 +221,8 @@ iex(2)> EctoTest.all
 iex(3)>
 ```
 
+<!-- MDOC !-->
+
 ## Additional Documentation
 
 Documentation for Timex and timex_ecto are available
@@ -216,6 +231,9 @@ Documentation for Timex and timex_ecto are available
 [here]: https://hexdocs.pm/timex
 [hexdocs]: http://hexdocs.pm/timex_ecto/
 
-## License
+## Copyright and License
 
-This project is MIT licensed. See the LICENSE file in this repo.
+Copyright (c) 2015 Paul Schoenfelder
+
+This work is free. You can redistribute it and/or modify it under the
+terms of the MIT License. See the [LICENSE.md](./LICENSE.md) file for more details.
